@@ -1,0 +1,665 @@
+{
+    "params": [
+        {
+            "table": "static_data",
+            "url": "https://www.evaria.io/user/"
+        },
+        {
+            "table": "user",
+            "classname": "_User",
+            "db": [
+                "user_id",
+                "user_firstname",
+                "user_lastname",
+                "user_email",
+                "user_defaulteventid",
+                "user_uxtime"
+            ]
+        },
+        {
+            "table": "event",
+            "classname": "Event",
+            "db": [
+                "event_id",
+                "event_name",
+                "event_token",
+                "event_pos",
+                "event_image",
+                "event_startdate",
+                "event_enddate",
+                "event_expirydate",
+                "event_autosync",
+                "event_darktheme",
+                "event_hideqrtype",
+                "event_expiredmessage",
+                "event_live",                
+                "event_userid",
+                "event_uxtime"
+            ],
+            "dbInsert": [
+                "name",
+                "userid"
+            ],
+            "dbInsertInitial": {
+                "event_pos": 0,
+                "event_image": "",
+                "event_startdate": "",
+                "event_enddate": "",
+                "event_expirydate": "20991231",
+                "event_autosync": 1,
+                "event_darktheme": 1,
+                "event_hideqrtype": 0,
+                "event_expiredmessage" : "",
+                "event_live" : 0                
+            },
+            "dbUpdate": [
+                "event_id",
+                "event_name",
+                "event_pos",
+                "event_startdate",
+                "event_enddate",
+                "event_expirydate",
+                "event_autosync",
+                "event_darktheme",
+                "event_hideqrtype",
+                "event_expiredmessage",
+                "event_live"                
+
+            ]
+        },
+        {
+            "table": "project",
+            "classname": "Project",
+            "db": [
+                "project_id",
+                "project_position",
+                "project_name",
+                "project_image",
+                "project_display",
+                "project_typeid",
+                "project_code",
+                "project_appicon",
+                "project_eventid",
+                "project_uxtime"
+            ],
+            "dbInsert": [
+                "position",
+                "name",
+                "typeid",
+                "code",
+                "typeid",
+                "eventid",
+                "uxtime"
+            ],
+            "dbInsertInitial": {
+                "project_image": null,
+                "project_appicon": "fal exclamation"
+            },
+            "dbUpdate": [
+                "project_id",
+                "project_name",
+                "project_position",
+                "project_appicon",
+                "project_eventid"
+            ]
+        },
+        {
+            "table": "poll",
+            "classname": "Poll",
+            "db": [
+                "poll_id",
+                "poll_type",
+                "poll_imageid",
+                "poll_live",
+                "poll_projectid",
+                "poll_eventid",
+                "poll_uxtime"
+            ],
+            "dbInsert": [
+                "name",
+                "eventid"
+            ],
+            "dbInsertInitial": {
+                "poll_imageid": 0,
+                "poll_type": 0,
+                "poll_live": 0
+            },
+            "dbUpdate": [
+                "poll_id",
+                "poll_type",
+                "poll_imageid",
+                "poll_live"
+            ]
+        },
+        {
+            "table": "scoreboard",
+            "classname": "Scoreboard",
+            "db": [
+                "scoreboard_id",
+                "scoreboard_allusers",
+                "scoreboard_live",
+                "scoreboard_eventid",
+                "scoreboard_projectid",
+                "scoreboard_uxtime"
+            ],
+            "dbInsert": [
+                "name",
+                "eventid"
+            ],
+            "dbInsertInitial": {
+                "scoreboard_allusers": 0,
+                "scoreboard_live": 0
+            },
+            "dbUpdate": [
+                "scoreboard_id",
+                "scoreboard_allusers",
+                "scoreboard_live"
+            ]
+        },
+        {
+            "table": "pindrop",
+            "classname": "Pindrop",
+            "db": [
+                "pindrop_id",
+                "pindrop_north",
+                "pindrop_west",
+                "pindrop_south",
+                "pindrop_east",
+                "pindrop_eventid",
+                "pindrop_projectid",
+                "pindrop_uxtime"
+            ],
+            "dbInsert": [
+                "name",
+                "eventid"
+            ],
+            "dbInsertInitial": {},
+            "dbUpdate": [
+                "pindrop_id"
+            ]
+        },
+        {
+            "table": "directory",
+            "classname": "_Directory",
+            "db": [
+                "directory_id",
+                "directory_parentid",
+                "directory_locationid",
+                "directory_mapid",
+                "directory_imageid",
+                "directory_scheduleid",
+                "directory_hidenames",
+                "directory_hidetype",
+                "directory_qrtype",
+                "directory_colourid",
+                "directory_shopid",
+                "directory_sortalpha",
+                "directory_projectid",
+                "directory_eventid",
+                "directory_uxtime"
+            ],
+            "dbInsert": [
+                "name",
+                "eventid"
+            ],
+            "dbInsertInitial": {
+                "directory_parentid": 0,
+                "directory_locationid": 0,
+                "directory_mapid": 0,
+                "directory_scheduleid": 0,
+                "directory_hidenames": 0,
+                "directory_hidetype": 0,
+                "directory_qrtype": 1,
+                "directory_imageid": 0,
+                "directory_shopid": 0,
+                "directory_colourid": "",
+                "directory_sortalpha": 0
+            },
+            "dbUpdate": [
+                "directory_id",
+                "directory_parentid",
+                "directory_locationid",
+                "directory_mapid",
+                "directory_imageid",
+                "directory_scheduleid",
+                "directory_hidenames",
+                "directory_hidetype",
+                "directory_qrtype",
+                "directory_shopid",
+                "directory_colourid",
+                "directory_sortalpha"
+            ]
+        },
+        {
+            "table": "shop",
+            "classname": "Shop",
+            "db": [
+                "shop_id",
+                "shop_imageid",
+                "shop_eventid",
+                "shop_projectid",
+                "shop_uxtime"
+            ],
+            "dbInsert": [
+                "name",
+                "eventid"
+            ],
+            "dbInsertInitial": {
+                "shop_imageid": 0
+            },
+            "dbUpdate": [
+                "shop_id",
+                "shop_imageid"
+            ]
+        },
+        {
+            "table": "hunt",
+            "classname": "Hunt",
+            "db": [
+                "hunt_id",
+                "hunt_imageid",
+                "hunt_eventid",
+                "hunt_projectid",
+                "hunt_uxtime"
+            ],
+            "dbInsert": [
+                "name",
+                "eventid"
+            ],
+            "dbInsertInitial": {
+                "hunt_imageid": 0
+            },
+            "dbUpdate": [
+                "hunt_id",
+                "hunt_imageid"
+            ]
+        },
+        {
+            "table": "news",
+            "classname": "News",
+            "db": [
+                "news_id",
+                "news_imageid",
+                "news_eventid",
+                "news_projectid",
+                "news_uxtime"
+            ],
+            "dbInsert": [
+                "name",
+                "eventid"
+            ],
+            "dbInsertInitial": {
+                "news_imageid": 0
+            },
+            "dbUpdate": [
+                "news_id",
+                "news_imageid"
+            ]
+        },
+        {
+            "table": "schedule",
+            "classname": "Schedule",
+            "db": [
+                "schedule_id",
+                "schedule_imageid",
+                "schedule_eventid",
+                "schedule_projectid",
+                "schedule_uxtime"
+            ],
+            "dbInsert": [
+                "name",
+                "eventid"
+            ],
+            "dbInsertInitial": {
+                "schedule_imageid": 0
+            },
+            "dbUpdate": [
+                "schedule_id",
+                "schedule_imageid"
+            ]
+        },
+        {
+            "table": "myschedule",
+            "classname": "Myschedule",
+            "db": [
+                "myschedule_id",
+                "myschedule_imageid",
+                "myschedule_eventid",
+                "myschedule_projectid",
+                "myschedule_uxtime"
+            ],
+            "dbInsert": [
+                "name",
+                "eventid"
+            ],
+            "dbInsertInitial": {
+                "schedule_imageid": 0
+            },
+            "dbUpdate": [
+                "myschedule_id",
+                "myschedule_imageid"
+            ]
+        },
+        {
+            "table": "pollitem",
+            "classname": "Poll",
+            "db": [
+                "pollitem_id",
+                "pollitem_position",
+                "pollitem_name",
+                "pollitem_image",
+                "pollitem_text",
+                "pollitem_pollid",
+                "pollitem_eventid",
+                "pollitem_uxtime"
+            ],
+            "dbInsert": [
+                "name",
+                "projectid",
+                "eventid"
+            ],
+            "dbInsertInitial": {
+    			"pollitem_text": ""
+            },
+            "dbUpdate": [
+                "pollitem_id",
+                "pollitem_position",
+                "pollitem_name",
+                "pollitem_text"
+            ]
+        },
+        {
+            "table": "pollscore",
+            "classname": "Poll",
+            "db": [
+                "pollscore_id",
+                "pollscore_guestid",
+                "pollscore_pollitemid",
+                "pollscore_pollid",
+                "pollscore_eventid",
+                "pollscore_uxtime"
+            ],
+            "dbInsert": [
+                "name",
+                "projectid",
+                "eventid"
+            ],
+            "dbUpdate": [
+                "pollscore_id",
+                "pollscore_pollitemid"
+            ]
+        },
+        {
+            "table": "scoreboardscore",
+            "classname": "Scoreboard",
+            "db": [
+                "scoreboardscore_id",
+                "scoreboardscore_guestid",
+                "scoreboardscore_count",
+                "scoreboardscore_scoreboardid",
+                "scoreboardscore_eventid",
+                "scoreboardscore_uxtime"
+            ],
+            "dbInsert": [
+                "name",
+                "projectid",
+                "eventid"
+            ],
+            "dbUpdate": [
+                "scoreboardscore_id",
+                "scoreboardscore_count"
+            ]
+        },
+        {
+            "table": "directoryentry",
+            "classname": "_Directory",
+            "db": [
+                "directoryentry_id",
+                "directoryentry_position",
+                "directoryentry_name",
+                "directoryentry_image",
+                "directoryentry_lightcolour",
+                "directoryentry_darkcolour",
+                "directoryentry_mapid",
+                "directoryentry_lat",
+                "directoryentry_lng",
+                "directoryentry_shorttext",
+                "directoryentry_longtext",
+                "directoryentry_directoryid",
+                "directoryentry_parententryid",
+                "directoryentry_shopid",
+                "directoryentry_day",
+                "directoryentry_hour",
+                "directoryentry_minute",
+                "directoryentry_duration",
+                "directoryentry_favourite",
+                "directoryentry_schedulehide",
+                "directoryentry_eventid",
+                "directoryentry_uxtime"
+            ],
+            "dbInsert": [
+                "name",
+                "projectid",
+                "eventid"
+            ],
+            "dbInsertBulk": {
+                "directoryentry_mapid": 0,                
+                "directoryentry_lat": 0,
+                "directoryentry_lng": 0,
+                "directoryentry_shopid": 0,
+                "directoryentry_favourite": 0,
+                "directoryentry_schedulehide": 0
+            },
+            "dbInsertInitial": {
+                "directoryentry_image": "",
+                "directoryentry_lightcolour": "",
+                "directoryentry_darkcolour": "",
+                "directoryentry_mapid": 0,
+                "directoryentry_lat": 0,
+                "directoryentry_lng": 0,
+                "directoryentry_shorttext": "",
+                "directoryentry_longtext": "",
+                "directoryentry_parententryid": 0,
+                "directoryentry_shopid": 0,
+                "directoryentry_day": "",
+                "directoryentry_hour": 0,
+                "directoryentry_minute": 0,
+                "directoryentry_duration": 0,
+                "directoryentry_schedulehide": 0,
+                "directoryentry_favourite": 0
+            },
+            "dbUpdate": [
+                "directoryentry_id",
+                "directoryentry_position",
+                "directoryentry_name",
+                "directoryentry_lightcolour",
+                "directoryentry_darkcolour",
+                "directoryentry_mapid",
+                "directoryentry_lat",
+                "directoryentry_lng",
+                "directoryentry_shorttext",
+                "directoryentry_longtext",
+                "directoryentry_parententryid",
+                "directoryentry_shopid",
+                "directoryentry_day",
+                "directoryentry_hour",
+                "directoryentry_minute",
+                "directoryentry_duration",
+                "directoryentry_schedulehide",
+                "directoryentry_favourite"
+            ]
+        },
+        {
+            "table": "shopitem",
+            "classname": "Shop",
+            "db": [
+                "shopitem_id",
+                "shopitem_position",
+                "shopitem_name",
+                "shopitem_price",
+                "shopitem_text",
+                "shopitem_image",
+                "shopitem_eventid",
+                "shopitem_shopid",
+                "shopitem_uxtime"
+            ],
+            "dbInsert": [
+                "name",
+                "price",
+                "projectid",
+                "eventid"
+            ],
+            "dbUpdate": [
+                "shopitem_id",
+                "shopitem_position",
+                "shopitem_name",
+                "shopitem_price",
+                "shopitem_text"
+            ]
+        },
+        {
+            "table": "huntitem",
+            "classname": "Hunt",
+            "db": [
+                "huntitem_id",
+                "huntitem_position",
+                "huntitem_name",
+                "huntitem_image",
+                "huntitem_text",
+                "huntitem_qrcode_image",
+                "huntitem_qrcode_value",
+                "huntitem_token",
+                "huntitem_eventid",
+                "huntitem_huntid",
+                "huntitem_uxtime"
+            ],
+            "dbInsert": [
+                "name",
+                "projectid",
+                "eventid"
+            ],
+            "dbInsertInitial": {
+    			"huntitem_text": "",
+				"huntitem_qrcode_image": "",
+				"huntitem_qrcode_value": "",
+				"huntitem_token": "",
+                "huntitem_scanned": null
+            },
+            "dbUpdate": [
+                "huntitem_id",
+                "huntitem_position",
+                "huntitem_name",
+                "huntitem_text"
+            ]
+        },
+        {
+            "table": "newsitem",
+            "classname": "News",
+            "db": [
+                "newsitem_id",
+                "newsitem_title",
+                "newsitem_detail",
+                "newsitem_projectid",
+                "newsitem_directoryentryid",
+                "newsitem_time",
+                "newsitem_userid",
+                "newsitem_newsid",
+                "newsitem_eventid",
+                "newsitem_uxtime"
+            ],
+            "dbInsert": [
+                "title",
+                "detail",
+                "directoryentryid",
+                "userid",
+                "projectid",
+                "eventid"
+            ],
+            "dbUpdate": [
+                "newsitem_id",
+                "newsitem_title",
+                "newsitem_detail",
+                "newsitem_directoryentryid"
+            ]
+        },
+        {
+            "table": "guest",
+            "classname": "_User",
+            "db": [
+                "guest_id",
+                "guest_firstname",
+                "guest_lastname",
+                "guest_email",
+                "guest_role",
+                "guest_token",
+                "guest_eventid",
+                "guest_uxtime"
+            ],
+            "dbInsert": [
+                "firstname",
+                "lastname",
+                "email",
+                "eventid"
+            ],
+            "dbUpdate": [
+                "guest_id",
+                "guest_firstname",
+                "guest_lastname",
+                "guest_email"
+            ]
+        },
+        {
+            "table": "qrcode",
+            "classname": "QR_Code",
+            "db": [
+                "qrcode_id",
+                "qrcode_value",
+                "qrcode_image",
+                "qrcode_eventid",
+                "qrcode_guestid",
+                "qrcode_uxtime"
+            ],
+            "dbUpdate": [
+                "qrcode_id"
+            ]
+        },
+        {
+            "table": "order",
+            "classname": "Shop",
+            "db": [
+                "order_id",
+                "order_clientid",
+                "order_shopid",
+                "order_eventid",
+                "order_datetime",
+                "order_uxtime"
+            ]
+        },
+        {
+            "table": "orderdetail",
+            "classname": "Shop",
+            "db": [
+                "orderdetail_id",
+                "orderdetail_shopitemid",
+                "orderdetail_quantity",
+                "orderdetail_orderid",
+                "orderdetail_uxtime"
+            ]
+        },
+        {
+            "table": "lookup",
+            "classname": "Project",
+            "db": [
+                "lookup_id",
+                "lookup_value",
+                "lookup_eventid",
+                "lookup_uxtime"
+            ],
+            "dbInsert": [
+                "id",
+                "value",
+                "eventid"
+            ]
+        }
+    ]
+}

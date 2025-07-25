@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For Organizers – Evaria</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <div class="topbar">
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="organizers.html" class="active">For Organizers</a></li>
+        <li><a href="pwa.html">PWA</a></li>
+        <li><a href="getting-started.html">Getting Started</a></li>
+      </ul>
+    </nav>
+    <div class="menu-toggle" id="menu-toggle">
+      <i class="fas fa-bars"></i>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobile-menu">
+    <div class="close-btn" id="close-menu"><i class="fas fa-times"></i></div>
+    <ul>
+      <li><a href="index.html" class="mobile-link">Home</a></li>
+      <li><a href="organizers.html" class="mobile-link active">For Organizers</a></li>
+      <li><a href="pwa.html" class="mobile-link">PWA</a></li>
+      <li><a href="getting-started.html" class="mobile-link">Getting Started</a></li>
+    </ul>
+  </div>
+
+  <header>
+     <img src="evaria_logo.png" alt="Evaria Logo" style="height: 150px; vertical-align: middle; margin-right: 0.5em;"/>
+    <h1>Tools for Organizers</h1>
+    <p>Quickly build and manage your own event app—no coding, no headaches. Just powerful tools that work.</p>
+  </header>
+
+  <main class="container">
+  <section id="organizers">
+    <h2>Built for Organizers Too</h2>
+    <p>Evaria isn’t just built for attendees—it’s designed with organizers in mind. The admin backend makes setting up and managing your event app fast, clear, and stress-free.</p>
+
+    <div class="features-grid">
+      <div class="feature">
+        <i class="fas fa-bolt"></i>
+        <h3>Set Up in Minutes</h3>
+        <p>Add your branding, event dates, and theme colors to instantly bring your event app to life.</p>
+      </div>
+
+      <div class="feature">
+        <i class="fas fa-layer-group"></i>
+        <h3>Add Content that Matters</h3>
+        <p>Use smart directories to add acts, vendors, stages, and facilities. Group them using parent/child links for intuitive navigation.</p>
+      </div>
+
+      <div class="feature">
+        <i class="fas fa-map-marked-alt"></i>
+        <h3>Geolocation</h3>
+        <p>Place pins on your event map to show where everything is—like stages, toilets, or food trucks. This adds location info to each item so attendees can use GPS directions to find things easily.</p>
+      </div>
+
+      <div class="feature">
+        <i class="fas fa-calendar-alt"></i>
+        <h3>Build the Schedule</h3>
+        <p>Add times to your listings—like performances or activities—and Evaria turns it into a clear, scrollable event schedule for your audience.</p>
+      </div>
+
+      <div class="feature">
+        <i class="fas fa-share-alt"></i>
+        <h3>Share with Ease</h3>
+        <p>Distribute your app instantly with a link or QR code. No installs, no downloads, no friction.</p>
+      </div>
+
+      <div class="feature">
+        <i class="fas fa-bullhorn"></i>
+        <h3>Push Live Updates</h3>
+        <p>Send real-time news, updates, or changes directly to your users as they happen.</p>
+      </div>
+    </div>
+  </section>
+  
+	<section style="display: flex; justify-content: center; align-items: center; padding: 2rem 1rem; text-align: center;">
+	  <a href="https://www.evaria.io/public/app/day-of-the-dead/153/000000/browser" 
+		 style="color: white; background: #333; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: bold;">
+		View Demo
+	  </a>
+	</section>
+</main>
+
+  <footer class="footer">
+    <p>&copy; 2025 Evaria. Built for events that matter—with no compromise on freedom, privacy, or clarity.</p>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const toggle = document.getElementById('menu-toggle');
+      const menu = document.getElementById('mobile-menu');
+      const closeBtn = document.getElementById('close-menu');
+      const links = document.querySelectorAll('.mobile-link');
+
+      toggle.addEventListener('click', () => menu.classList.add('open'));
+      closeBtn.addEventListener('click', () => menu.classList.remove('open'));
+      links.forEach(link => link.addEventListener('click', () => menu.classList.remove('open')));
+    });
+  </script>
+</body>
+</html>

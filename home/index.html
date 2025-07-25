@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home – Evaria</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <div class="topbar">
+    <nav>
+      <ul>
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="organizers.html">For Organizers</a></li>
+        <li><a href="pwa.html">PWA</a></li>
+        <li><a href="getting-started.html">Getting Started</a></li>
+      </ul>
+    </nav>
+    <div class="menu-toggle" id="menu-toggle">
+      <i class="fas fa-bars"></i>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobile-menu">
+    <div class="close-btn" id="close-menu"><i class="fas fa-times"></i></div>
+    <ul>
+      <li><a href="index.html" class="mobile-link active">Home</a></li>
+      <li><a href="organizers.html" class="mobile-link">For Organizers</a></li>
+      <li><a href="pwa.html" class="mobile-link">PWA</a></li>
+      <li><a href="getting-started.html" class="mobile-link">Getting Started</a></li>
+    </ul>
+  </div>
+
+  <header>
+    <img src="evaria_logo.png" alt="Evaria Logo" style="height: 150px; vertical-align: middle; margin-right: 0.5em;"/>
+	<h1>Evaria – The No-BS Event App Builder</h1>
+    <p>Why we built Evaria—and who it’s for.</p>
+  </header>
+
+  <main class="container">
+    <section id="overview">
+      <h2>Overview</h2>
+      <p>Evaria is a no-code event app builder built for real-world needs. It enables organizers to create powerful, offline-first, user-friendly Progressive Web Apps (PWAs) with no technical expertise required. Whether you're organizing a grassroots festival or a large-scale event, Evaria cuts through the noise with essential tools—no ads, no tracking, no bloat.</p>
+    </section>
+
+    <section id="difference">
+      <h2>What Makes Evaria Different</h2>
+      <p>Evaria exists because most event apps fail their users. Clunky interfaces, irrelevant features, sponsor overload, and poor offline performance dominate the space. Evaria is a clean, focused alternative that prioritizes real attendee needs over organizer agendas.</p>
+    </section>
+
+    <section id="failings">
+      <h2>What's Wrong With Most Event Apps?</h2>
+      <div class="evaria-summary">
+        <div class="summary-card" style="animation-delay: 0.1s">
+          <h3><i class="fas fa-bug"></i> UX/UI & Technical Issues</h3>
+          <ul style="list-style-type: '- '; padding-left: 2rem;">
+            <li>Over-designed, clunky interfaces</li>
+            <li>Slow load times and bugs</li>
+            <li>Useless when offline</li>
+            <li>Lack of personalization</li>
+          </ul>
+        </div>
+        <div class="summary-card" style="--i:2">
+          <h3><i class="fas fa-sliders-h"></i> Lack of Useful Features</h3>
+          <ul style="list-style-type: '- '; padding-left: 2rem;">
+            <li>Poor scheduling tools with no easy way to handle overlaps</li>
+            <li>Unclear, zoom-limited maps</li>
+            <li>No real-time updates on delays or changes</li>
+            <li>No coordination tools for meeting friends or staying informed</li>
+          </ul>
+        </div>
+        <div class="summary-card" style="--i:3">
+          <h3><i class="fas fa-hand-holding-dollar"></i> The Commercial Side That Ruins the Vibe</h3>
+          <ul style="list-style-type: '- '; padding-left: 2rem;">
+            <li>Full of ads, sponsor content, and non-stop merch promotion. Wanna buy a crap t-shirt? Most apps think you do—and they won’t let you forget it.</li>
+            <li>Social media and Spotify-style integrations clutter the experience, promote distractions, and take focus away from useful features</li>
+            <li>Built-in sharing tools, feeds, or music tie-ins that serve the algorithm more than the user</li>
+            <li>Feature bloat in the name of engagement, not utility</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="key-features">
+      <h2>Key Features</h2>
+      <div class="evaria-summary">
+        <div class="summary-card" style="--i:1">
+          <h3><i class="fas fa-calendar-check"></i> Effortless Scheduling</h3>
+          <ul style="list-style-type: '- '; padding-left: 2rem;">
+            <li>Swipeable timetable</li>
+            <li>Star favorite acts to create a personal plan</li>
+            <li>Conflict alerts & reminders</li>
+          </ul>
+        </div>
+        <div class="summary-card" style="--i:2">
+          <h3><i class="fas fa-map"></i> Smart Offline Maps</h3>
+          <ul style="list-style-type: '- '; padding-left: 2rem;">
+            <li>High-contrast layout</li>
+            <li>Clearly marked stages, facilities, aid stations</li>
+            <li>Fully functional without signal</li>
+          </ul>
+        </div>
+        <div class="summary-card" style="--i:3">
+          <h3><i class="fas fa-location-arrow"></i> "Take Me There" Navigation</h3>
+          <ul style="list-style-type: '- '; padding-left: 2rem;">
+            <li>GPS + compass-based direction and distance</li>
+            <li>Simple arrow and meter readout</li>
+          </ul>
+        </div>
+        <div class="summary-card" style="--i:4">
+          <h3><i class="fas fa-comments"></i> Tap-to-Ask Assistant</h3>
+          <ul style="list-style-type: '- '; padding-left: 2rem;">
+            <li>Chat-style interface with tap-to-use questions:</li>
+            <li>What's on now?</li>
+            <li>Where's the nearest toilet?</li>
+            <li>Where's first aid?</li>
+            <li>Show me the map</li>
+            <li>Fast, no-typing answers (no AI required)</li>
+          </ul>
+        </div>
+        <div class="summary-card" style="--i:5">
+          <h3><i class="fas fa-battery-half"></i> Battery-Saving by Design</h3>
+          <ul style="list-style-type: '- '; padding-left: 2rem;">
+            <li>Dark mode by default</li>
+            <li>No background syncing</li>
+            <li>Minimal power consumption</li>
+          </ul>
+        </div>
+        <div class="summary-card" style="--i:6">
+          <h3><i class="fas fa-list-ul"></i> Smart Directories & Contextual Navigation</h3>
+          <ul style="list-style-type: '- '; padding-left: 2rem;">
+            <li>Parent/Child Relationships: Group items logically (e.g., acts under stages)</li>
+            <li>Geolocation & Map Pins: Assign physical locations to any item</li>
+            <li>Compass Navigation: Tap-to-navigate with direction and distance shown</li>
+            <li>Timed Events: Link content to schedule seamlessly</li>
+            <li>Favorites: Users can star items for a personal itinerary</li>
+            <li>Rich Content: Support for images, tags, and descriptions enhances each listing</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="benefits">
+      <h2>Why Choose Evaria?</h2>
+      <p>Evaria is built to make your event planning smarter, not harder. Whether you're running a local gig or a full-scale festival, Evaria gives you all the tools you need—without the learning curve or price tag.</p>
+      <div style="margin-top: 2rem;">
+        <p class="summary-card" style="animation-delay: 0.4s">✔ Fully mobile and desktop friendly</p>
+        <p class="summary-card" style="--i:5">✔ Built-in schedule and map</p>
+        <p class="summary-card" style="--i:6">✔ Cloud backup with offline access</p>
+        <p class="summary-card" style="--i:7">✔ Easy to update and share</p>
+        <p class="summary-card" style="--i:8">✔ Free for those who can’t afford a paid alternative</p>
+      </div>
+    </section>
+
+	<section style="display: flex; justify-content: center; align-items: center; padding: 2rem 1rem; text-align: center;">
+	  <a href="https://www.evaria.io/public/app/day-of-the-dead/153/000000/browser" 
+		 style="color: white; background: #333; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: bold;">
+		View Demo
+	  </a>
+	</section>
+
+
+	
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2025 Evaria. Built for events that matter—with no compromise on freedom, privacy, or clarity.</p>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const toggle = document.getElementById('menu-toggle');
+      const menu = document.getElementById('mobile-menu');
+      const closeBtn = document.getElementById('close-menu');
+      const links = document.querySelectorAll('.mobile-link');
+
+      toggle.addEventListener('click', () => menu.classList.add('open'));
+      closeBtn.addEventListener('click', () => menu.classList.remove('open'));
+      links.forEach(link => link.addEventListener('click', () => menu.classList.remove('open')));
+    });
+  </script>
+</body>
+</html>
+

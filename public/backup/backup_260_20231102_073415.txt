@@ -1,0 +1,40 @@
+INSERT INTO event (event_id, event_name, event_pos, event_image, event_startdate, event_enddate, event_expirydate, event_autosync, event_darktheme, event_hideqrtype, event_userid, event_uxtime) VALUES ('260', 'Test Event', '0', '', '20231101', '20231103', '20241231', '1', '1', '0', '1', '1698872675');@@@END@@@
+INSERT INTO project (project_id, project_position, project_name, project_image, project_display, project_typeid, project_code, project_appicon, project_eventid, project_uxtime) VALUES ('944', '0', 'Poll', '', '', '1', 'pwdcbl', 'fal exclamation', '260', '1698867292');@@@END@@@
+INSERT INTO project (project_id, project_position, project_name, project_image, project_display, project_typeid, project_code, project_appicon, project_eventid, project_uxtime) VALUES ('945', '1', 'Scoreboard', '', '', '2', 'eegnfl', 'fal exclamation', '260', '1698867299');@@@END@@@
+INSERT INTO project (project_id, project_position, project_name, project_image, project_display, project_typeid, project_code, project_appicon, project_eventid, project_uxtime) VALUES ('946', '2', 'Map', '', '', '4', 'npmokh', 'fal exclamation', '260', '1698867305');@@@END@@@
+INSERT INTO project (project_id, project_position, project_name, project_image, project_display, project_typeid, project_code, project_appicon, project_eventid, project_uxtime) VALUES ('947', '3', 'Directory', '', '', '5', 'wcdmkb', 'fal exclamation', '260', '1698867312');@@@END@@@
+INSERT INTO project (project_id, project_position, project_name, project_image, project_display, project_typeid, project_code, project_appicon, project_eventid, project_uxtime) VALUES ('948', '4', 'Hunt', '', '', '7', 'cprvqd', 'fal exclamation', '260', '1698867318');@@@END@@@
+INSERT INTO project (project_id, project_position, project_name, project_image, project_display, project_typeid, project_code, project_appicon, project_eventid, project_uxtime) VALUES ('949', '5', 'News', '', '', '8', 'gggaiy', 'fal exclamation', '260', '1698867324');@@@END@@@
+INSERT INTO project (project_id, project_position, project_name, project_image, project_display, project_typeid, project_code, project_appicon, project_eventid, project_uxtime) VALUES ('950', '6', 'Schedule', '', '', '9', 'dwnujr', 'fal exclamation', '260', '1698867331');@@@END@@@
+INSERT INTO poll (poll_id, poll_type, poll_imageid, poll_live, poll_projectid, poll_eventid, poll_uxtime) VALUES ('124', '0', '0', '0', '944', '260', '1698867292');@@@END@@@
+INSERT INTO scoreboard (scoreboard_id, scoreboard_allusers, scoreboard_live, scoreboard_eventid, scoreboard_projectid, scoreboard_uxtime) VALUES ('72', '0', '0', '260', '945', '1698867299');@@@END@@@
+INSERT INTO pindrop (pindrop_id, pindrop_eventid, pindrop_projectid, pindrop_uxtime) VALUES ('89', '260', '946', '1698867305');@@@END@@@
+INSERT INTO directory (directory_id, directory_parentid, directory_mapid, directory_imageid, directory_scheduleid, directory_hidenames, directory_hidetype, directory_qrtype, directory_colourid, directory_shopid, directory_sortalpha, directory_projectid, directory_eventid, directory_uxtime) VALUES ('308', '0', '0', '0', '0', '0', '0', '1', '', '0', '0', '947', '260', '1698867312');@@@END@@@
+INSERT INTO hunt (hunt_id, hunt_imageid, hunt_eventid, hunt_projectid, hunt_uxtime) VALUES ('30', '0', '260', '948', '1698867318');@@@END@@@
+INSERT INTO news (news_id, news_imageid, news_eventid, news_projectid, news_uxtime) VALUES ('28', '0', '260', '949', '1698867324');@@@END@@@
+INSERT INTO schedule (schedule_id, schedule_imageid, schedule_eventid, schedule_projectid, schedule_uxtime) VALUES ('19', '0', '260', '950', '1698867331');@@@END@@@
+INSERT INTO guest (guest_id, guest_firstname, guest_lastname, guest_email, guest_role, guest_token, guest_eventid, guest_uxtime) VALUES ('526', 'Test Event', 'Evaria', 'test-event@evaria.io', '1', '35WZRXjbDvg8fdckE3s2tzu6fHg8qpMz', '260', '1698867166');@@@END@@@
+INSERT INTO qrcode (qrcode_id, qrcode_value, qrcode_image, qrcode_eventid, qrcode_guestid, qrcode_uxtime) VALUES ('492', 'https://www.evaria.io/user/test-event', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPoAAAD6CAIAAAAHjs1qAAAABmJLR0QA/wD/AP+gvaeTAAAEy0lE
+QVR4nO3dy27cOBRAwXQw///Lnt1gAGVBKOJDfarWidy2Dwj4gqQ+Pz8/v6Dh9+4PAOvInRC5EyJ3
+QuROiNwJkTshcidE7oTInRC5EyJ3QuROiNwJkTshcidE7oTInRC5EyJ3QuROiNwJkTshcidE7oTI
+nRC5EyJ3QuROiNwJkTshcidE7oTInRC5EyJ3QuROyD/rv+Tn81n/Rf9z702D18/81BsLn3ryvee8
+8XfxN6zuhMidELkTIndC5E7IhsnM1by/0EcmDyunE/M+z/VneG9Ws/d3MZvVnRC5EyJ3QuROiNwJ
+OWIyc/XUdOKeedOJe/OTe//mKXt/F8+yuhMid0LkTojcCZE7IYdOZlZ6arfJyATj+px7+1jmna76
+blZ3QuROiNwJkTshcifEZObmCaOnJioj7s1zTG+urO6EyJ0QuRMid0LkTsihk5m9M4R5Z4XuPfmp
+E0/3fNM8x+pOiNwJkTshcidE7oQcMZk54W7YNebdKrPyTNZ7Wd0JkTshcidE7oTInZANk5nv2IOx
+d8Yy8nlGfMfvYpzVnRC5EyJ3QuROiNwJ+az/2/zeTbkrb+UdMe+7eOo7nbdD5t7s6IQpkNWdELkT
+IndC5E6I3Al5zWTm3pPn3cE7b4/KUz+flZ/wLTcSW90JkTshcidE7oTInZAjJjPzPsPePTMjnvre
+V94S/N6TU1Z3QuROiNwJkTshcidkw2TmDx/i+PM7T3nq+zptx47TTHAcuRMid0LkTojcCXnNZOap
+ecXKW2VGnrN3VnO18vM4zQQTyZ0QuRMid0LkTsihp5n2zhlGnrNyOnHa1OW9rO6EyJ0QuRMid0Lk
+TsiGt2ZfzZvVvPdGlP877U1Vp92xM87qTojcCZE7IXInRO6EHDGZuVp5Fub6tU7bsbPyyffMu234
+WVZ3QuROiNwJkTshcifkiHtmRsw7c/SU02652fsTM5mBzeROiNwJkTshcifkiMnM3h0yT32tp3a/
+nH/maOW7tJ5ldSdE7oTInRC5EyJ3QjacZtr7fqK9E555/2vkOVenPXk2qzshcidE7oTInRC5E7Jh
+MjNvp8TKczfz7ijeu//khD1U81jdCZE7IXInRO6EyJ2Qr3pr9so9Kt96umrEW+77vbK6EyJ3QuRO
+iNwJkTshR9wzs9fKc1Lz3nY9Yt6eore8ndzqTojcCZE7IXInRO6EHHHPzEp7T/2s/F8jP+en9rq8
+ZReN1Z0QuRMid0LkTojcCdkwmbk67U3W82ZHp+0tWfkW7xNY3QmROyFyJ0TuhMidkCMmM1dvnGCM
+7BJZeUfxyHPueeoEltNMMJHcCZE7IXInRO6EHDqZWeneqZ/TrHwX+Wlzs3FWd0LkTojcCZE7IXIn
+xGRm6Rud5tn7hqmRJ59w84zVnRC5EyJ3QuROiNwJOXQys/Jv9nnvHnrjG7FHzHsL1WxWd0LkTojc
+CZE7IXIn5IjJzGlnhe7Nak6b58z7hO9ldSdE7oTInRC5EyJ3Qj4n7GSANazuhMidELkTIndC5E6I
+3AmROyFyJ0TuhMidELkTIndC5E6I3AmROyFyJ0TuhMidELkTIndC5E6I3AmROyFyJ0TuhMidELkT
+IndC5E6I3AmROyFyJ0TuhMidELkTIndC5E7Iv22oNfcta4ISAAAAAElFTkSuQmCC
+', '260', '0', '1698867167');@@@END@@@

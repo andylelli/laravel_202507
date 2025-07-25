@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PWA – Evaria</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <div class="topbar">
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="organizers.html">For Organizers</a></li>
+        <li><a href="pwa.html" class="active">PWA</a></li>
+        <li><a href="getting-started.html">Getting Started</a></li>
+      </ul>
+    </nav>
+    <div class="menu-toggle" id="menu-toggle">
+      <i class="fas fa-bars"></i>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobile-menu">
+    <div class="close-btn" id="close-menu"><i class="fas fa-times"></i></div>
+    <ul>
+      <li><a href="index.html" class="mobile-link">Home</a></li>
+      <li><a href="organizers.html" class="mobile-link">For Organizers</a></li>
+      <li><a href="pwa.html" class="mobile-link active">PWA</a></li>
+      <li><a href="getting-started.html" class="mobile-link">Getting Started</a></li>
+    </ul>
+  </div>
+
+  <header>
+     <img src="evaria_logo.png" alt="Evaria Logo" style="height: 150px; vertical-align: middle; margin-right: 0.5em;"/>
+    <h1>Progressive Web App</h1>
+    <p>Why Evaria skips the app store—and why that's a good thing.</p>
+  </header>
+
+  <main class="container">
+  <section id="pwa">
+    <h2>Evaria is a PWA</h2>
+	<p>Progressive Web Apps (PWAs) are modern web applications that behave like native apps—but run entirely through a browser. They load fast, work offline, and can be added to your home screen with a single tap.</p>
+	<br/>
+	<p>Unlike traditional apps, PWAs don't need to go through an app store. That means no gatekeeping, no lengthy approval process, no forced updates, and no corporate restrictions. You're in control—Evaria lets you publish instantly and share your app via a simple link or QR code.</p>
+
+    <div class="features-grid">
+      <div class="feature"><i class="fas fa-signal"></i>
+        <h3>Works Offline</h3>
+        <p>Once it’s loaded, it keeps working—even in airplane mode or low signal areas.</p>
+      </div>
+      <div class="feature"><i class="fas fa-mobile"></i>
+        <h3>Installable</h3>
+        <p>One tap adds the app to your home screen. No installs. No updates.</p>
+      </div>
+      <div class="feature"><i class="fas fa-sync-alt"></i>
+        <h3>Real-Time Updates</h3>
+        <p>Changes from the admin app go live immediately for your audience.</p>
+      </div>
+      <div class="feature"><i class="fas fa-tachometer-alt"></i>
+        <h3>Fast & Lightweight</h3>
+        <p>Loads quickly and uses minimal data—ideal for festival environments.</p>
+      </div>
+      <div class="feature"><i class="fas fa-store-slash"></i>
+        <h3>No App Store Needed</h3>
+        <p>No approvals, no rejections. You're live when you're ready.</p>
+      </div>
+      <div class="feature"><i class="fas fa-lock"></i>
+        <h3>Privacy Respecting</h3>
+        <p>No data mining, no background tracking—your users stay in control.</p>
+      </div>
+    </div>
+  </section>
+  
+	<section style="display: flex; justify-content: center; align-items: center; padding: 2rem 1rem; text-align: center;">
+	  <a href="https://www.evaria.io/public/app/day-of-the-dead/153/000000/browser" 
+		 style="color: white; background: #333; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: bold;">
+		View Demo
+	  </a>
+	</section>
+</main>
+
+  <footer class="footer">
+    <p>&copy; 2025 Evaria. Built for events that matter—with no compromise on freedom, privacy, or clarity.</p>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const toggle = document.getElementById('menu-toggle');
+      const menu = document.getElementById('mobile-menu');
+      const closeBtn = document.getElementById('close-menu');
+      const links = document.querySelectorAll('.mobile-link');
+
+      toggle.addEventListener('click', () => menu.classList.add('open'));
+      closeBtn.addEventListener('click', () => menu.classList.remove('open'));
+      links.forEach(link => link.addEventListener('click', () => menu.classList.remove('open')));
+    });
+  </script>
+</body>
+</html>

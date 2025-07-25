@@ -1,0 +1,28 @@
+INSERT INTO event (event_id, event_name, event_pos, event_image, event_startdate, event_enddate, event_expirydate, event_autosync, event_darktheme, event_hideqrtype, event_expiredmessage, event_live, event_userid, event_uxtime) VALUES ('263', 'aaa', '0', '', '20240320', '20240322', '20251231', '1', '1', '0', '', '0', '1', '1710955983');@@@END@@@
+INSERT INTO project (project_id, project_position, project_name, project_image, project_display, project_typeid, project_code, project_appicon, project_eventid, project_uxtime) VALUES ('978', '0', 'Music', '', '', '5', 'dgpsef', 'fal exclamation', '263', '1710955916');@@@END@@@
+INSERT INTO project (project_id, project_position, project_name, project_image, project_display, project_typeid, project_code, project_appicon, project_eventid, project_uxtime) VALUES ('979', '1', 'Poll', '', '', '1', 'iqqpqz', 'fal poll', '263', '1710956061');@@@END@@@
+INSERT INTO poll (poll_id, poll_type, poll_imageid, poll_live, poll_projectid, poll_eventid, poll_uxtime) VALUES ('135', '0', '0', '0', '979', '263', '1710956038');@@@END@@@
+INSERT INTO directory (directory_id, directory_parentid, directory_mapid, directory_imageid, directory_scheduleid, directory_hidenames, directory_hidetype, directory_qrtype, directory_colourid, directory_shopid, directory_sortalpha, directory_projectid, directory_eventid, directory_uxtime) VALUES ('313', '0', '0', '0', '0', '0', '0', '1', '', '0', '0', '978', '263', '1710956004');@@@END@@@
+INSERT INTO guest (guest_id, guest_firstname, guest_lastname, guest_email, guest_role, guest_token, guest_eventid, guest_uxtime) VALUES ('529', 'aaa', 'Evaria', 'aaa@evaria.io', '1', 'iZfctwLW321vc5uLDAGEJXWBqzQil3KY', '263', '1710848742');@@@END@@@
+INSERT INTO qrcode (qrcode_id, qrcode_value, qrcode_image, qrcode_eventid, qrcode_guestid, qrcode_uxtime) VALUES ('495', 'https://www.evaria.io/user/aaa', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPoAAAD6CAIAAAAHjs1qAAAABmJLR0QA/wD/AP+gvaeTAAAEYElE
+QVR4nO3dS3LbMBQAwSiV+1/Z2WUF20wYfKjpXluiJE9h8QogXx8fHz+g4efuDwDryJ0QuRMid0Lk
+TojcCZE7IXInRO6EyJ0QuRMid0LkTojcCZE7IXInRO6EyJ0QuRMid0LkTojcCZE7IXInRO6EyJ0Q
+uRMid0LkTojcCZE7IXInRO6EyJ0QuRMid0J+Lb7e6/VafMVvDR/GNvyc1x/bdv3lM36QZRe6af1j
+8KzuhMidELkTIndC5E6I3AlZPYgcWjaQWjaMm/GNZowX3++X/5rVnRC5EyJ3QuROiNwJkTshRwwi
+hw4csd3c5zj8y+svXzbLO/CX/1+s7oTInRC5EyJ3QuROiNwJOXcQ+RQ3x3YzzoDzGas7IXInRO6E
+yJ0QuRMid0IMIsdu7nO8Ph98yv0c34PVnRC5EyJ3QuROiNwJkTsh5w4i957wvT4KvLmlcWjvdz/5
+bPVNVndC5E6I3AmROyFyJ0TuhBwxiHzKBsCbuxdn3GLSye6/YnUnRO6EyJ0QuRMid0LkTsjrjbe/
+rXHzFPaMq/uffsbqTojcCZE7IXInRO6EyJ2Q1TsiZ4ztDnzK84zdizPMuOvldeu/u9WdELkTIndC
+5E6I3AmROyEP2xG57HTz0M3Z6N4T0zOu/pR56x9Wd0LkTojcCZE7IXInRO6ErB5E7p367d0AOLRs
+uHn9PW86ZOY4ZHUnRO6EyJ0QuRMid0LkTsgRg8hHH09eNjC9bu/Gz5vvOZXVnRC5EyJ3QuROiNwJ
+kTsh5x7N3ju2u+nAJ9jcvPp77J20uhMid0LkTojcCZE7IXIn5NyH1cx4+YEHmZddaO8NLg+Zd1vd
+CZE7IXInRO6EyJ0QuRPyDjsil73nU25GWdvneJ3VnRC5EyJ3QuROiNwJkTsh5w4ir3v0I6qHDnwu
+zbL7Tk5ldSdE7oTInRC5EyJ3QuROyMOOZi+7+iGDs28deFr85J/O6k6I3AmROyFyJ0TuhMidkHfY
+ETnDjLPVyzZpHrgf8xBWd0LkTojcCZE7IXInRO6EtHZEDg1HbDPu/Lj3cPQbjxevs7oTIndC5E6I
+3AmROyFyJ2T1IHJo2TjswLHdgU+wGTrwI/0DqzshcidE7oTInRC5EyJ3Qo4YRA7tPZ58095Huzxl
+2+l6VndC5E6I3AmROyFyJ0TuhJw7iNxrxtHsZX85tPdeloccDLe6EyJ3QuROiNwJkTshcifEIHKd
+ZdPJ627OHGcMTKeyuhMid0LkTojcCZE7IXIn5NxB5N7R1c1p2owPP2NH5M055oFnwL9mdSdE7oTI
+nRC5EyJ3QuROyGvxvO/A0dXenYbXHbjT8MBf6WtWd0LkTojcCZE7IXInRO6ErB5EwkZWd0LkTojc
+CZE7IXInRO6EyJ0QuRMid0LkTojcCZE7IXInRO6EyJ0QuRMid0LkTojcCZE7IXInRO6EyJ0QuRMi
+d0LkTojcCZE7IXInRO6EyJ0QuRMid0LkTojcCZE7IXIn5DcMhnkH5eEVkQAAAABJRU5ErkJggg==
+', '263', '0', '1710848744');@@@END@@@

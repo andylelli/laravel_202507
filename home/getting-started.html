@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Get Started – Evaria</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <div class="topbar">
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="organizers.html">For Organizers</a></li>
+        <li><a href="pwa.html">PWA</a></li>
+        <li><a href="getting-started.html" class="active">Getting Started</a></li>
+      </ul>
+    </nav>
+    <div class="menu-toggle" id="menu-toggle">
+      <i class="fas fa-bars"></i>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobile-menu">
+    <div class="close-btn" id="close-menu"><i class="fas fa-times"></i></div>
+    <ul>
+      <li><a href="index.html" class="mobile-link">Home</a></li>
+      <li><a href="organizers.html" class="mobile-link">For Organizers</a></li>
+      <li><a href="pwa.html" class="mobile-link active">PWA</a></li>
+      <li><a href="getting-started.html" class="mobile-link">Getting Started</a></li>
+    </ul>
+  </div>
+  
+  <header>
+    <img src="evaria_logo.png" alt="Evaria Logo" style="height: 150px; vertical-align: middle; margin-right: 0.5em;"/>
+    <h1>Get Started with Evaria</h1>
+    <p>Everything you need to launch your own powerful, offline-ready event app in minutes.</p>
+  </header>
+
+  <main class="container">
+    <section id="get-started">
+      <h2>How to Get Started</h2>
+      <p>Getting started with Evaria is easy. Follow these simple steps to create your custom event app without writing a single line of code.</p>
+      <div class="evaria-summary">
+        <div class="summary-card" style="--i:1">
+          <h3><span class="step-number">1</span> Create Your Account</h3>
+          <p>Sign up for free. No credit card, no commitment—just instant access to the builder.</p>
+        </div>
+        <div class="summary-card" style="--i:2">
+          <h3><span class="step-number">2</span> Set Up Your Event</h3>
+          <p>Add your event name, logo, dates, and branding. This sets the tone and structure of your app.</p>
+        </div>
+        <div class="summary-card" style="--i:3">
+          <h3><span class="step-number">3</span> Build Your Content</h3>
+          <p>Add stages, acts, vendors, or any type of directory item. Use the intuitive admin interface to organize everything clearly.</p>
+        </div>
+        <div class="summary-card" style="--i:4">
+          <h3><span class="step-number">4</span> Map It Out</h3>
+          <p>Drop pins, assign geolocations, and build your event map for easy navigation.</p>
+        </div>
+        <div class="summary-card" style="--i:5">
+          <h3><span class="step-number">5</span> Schedule It</h3>
+          <p>Assign times to your listings and create a fully functional event timetable. Attendees can star what they care about.</p>
+        </div>
+        <div class="summary-card" style="--i:6">
+          <h3><span class="step-number">6</span> Go Live</h3>
+          <p>Publish your app instantly. Share it via a link or QR code—no app store approval needed.</p>
+        </div>
+      </div>
+    </section>
+
+	<section style="display: flex; justify-content: center; align-items: center; padding: 2rem 1rem; text-align: center;">
+	  <a href="https://www.evaria.io/public/app/day-of-the-dead/153/000000/browser" 
+		 style="color: white; background: #333; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: bold;">
+		View Demo
+	  </a>
+	</section>
+
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2025 Evaria. Built for events that matter—with no compromise on freedom, privacy, or clarity.</p>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const toggle = document.getElementById('menu-toggle');
+      const menu = document.getElementById('mobile-menu');
+      const closeBtn = document.getElementById('close-menu');
+      const links = document.querySelectorAll('.mobile-link');
+
+      toggle.addEventListener('click', () => menu.classList.add('open'));
+      closeBtn.addEventListener('click', () => menu.classList.remove('open'));
+      links.forEach(link => link.addEventListener('click', () => menu.classList.remove('open')));
+    });
+  </script>
+</body>
+</html>
