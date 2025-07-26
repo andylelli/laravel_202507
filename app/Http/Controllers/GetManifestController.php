@@ -18,6 +18,7 @@ class GetManifestController extends Controller
             ->get();
 
             $name = $results[0]->event_name;
+            $token = $results[0]->event_token;
 
             $lowercaseString = strtolower($name);
             $decodedString = html_entity_decode($lowercaseString, ENT_QUOTES | ENT_HTML5, 'UTF-8');
@@ -104,7 +105,7 @@ class GetManifestController extends Controller
             $colour = $lookup ? $lookup->lookup_value : '000000';
             
             //$startURL = "/user/event/" . $convertedString;
-            $startURL = "/user/index.html?name=" . $eventName . "&id=" . $eventid . "&bg=" . $colour;
+            $startURL = "/user/index.html?name=" . $eventName . "&token=" . $token . "id=" . $eventid . "&bg=" . $colour;
 
             // CREATE MAIN RESPONSE
             $response[] = array(
