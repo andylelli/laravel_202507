@@ -16,24 +16,17 @@ class Scan extends Project{
     * @return string $guest id                                                          *
     * @return string $event id                                                          *
     */
-    public function QR_scan_check($email, $eventid){
+    public function QR_scan_check($table, $id, $eventid){
 
-            $results = DB::table('guest')
-    		->where('guest_email' ,'=', $email)
-            ->where('guest_eventid' ,'=', $eventid)
+            $results = DB::table($table)
+    		->where($table . '_id' ,'=', $id)
+            ->where($table . '_eventid' ,'=', $eventid)
     		->get();
 
-            $guest_id = $results[0]->guest_id;
-            $guest_role = $results[0]->guest_role;
-            $guest_eventid = $results[0]->guest_eventid;
-
-            if($eventid == $guest_eventid && $guest_id > 0) {
+            if(count($results) == 0) {
 
                 $response = array(
                     'status' => 'success',
-                    'guest_id' => $guest_id,
-                    'guest_role' => $guest_role,
-                    'guest_eventid' => $guest_eventid
                 );
 
                 return $response;

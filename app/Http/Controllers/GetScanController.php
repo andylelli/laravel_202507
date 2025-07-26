@@ -10,27 +10,25 @@ class GetScanController extends Controller
 {
     use General;
 
-	public function getScan($type, $eventid, $id, $value, $email, $uniqueid, $token)
+	public function getScan($table, $eventid, $id, $value, $uniqueid)
 	{
 
-		$type = filter_var($type, FILTER_SANITIZE_ADD_SLASHES);
+		$table = filter_var($table, FILTER_SANITIZE_ADD_SLASHES);
         $eventid = filter_var($eventid, FILTER_SANITIZE_ADD_SLASHES);
         $id = filter_var($id, FILTER_SANITIZE_ADD_SLASHES);
-		$email = filter_var($email, FILTER_SANITIZE_ADD_SLASHES);
 		$uniqueid = filter_var($uniqueid, FILTER_SANITIZE_ADD_SLASHES);
-		$token = filter_var($token, FILTER_SANITIZE_ADD_SLASHES);
 		$value = filter_var($value, FILTER_SANITIZE_ADD_SLASHES);
 
         //check QR code is valid
         $scan = new Scan();
-        $scan_check = $scan->QR_scan_check(urldecode($email), $eventid);
+        $scan_check = $scan->QR_scan_check($table, $id, $eventid);
 
         if ($scan_check['status'] == 'success') {
 
             $guestid = $scan_check['guest_id'];
 
             //SCOREBOARD
-            if($type == 'scoreboard') {
+            if($table == 'scoreboard') {
                 $scoreboard_update = $scan->QR_scoreboard_update($uniqueid, $id, $value, $eventid);
                 if ($scoreboard_update == true) {
                     $response = array(

@@ -144,7 +144,7 @@ use App\Http\Controllers\MapStyliseController;
         Route::delete('/delete-all/{table}/{parenttable}/{id}',  [DeleteController::class, 'deleteAll']);
 
         //Misc
-        Route::get('/get/scan/{type}/{eventid}/{id}/{value}/{email}/{uniqueid}/{token}', [GetScanController::class, 'getScan']);
+        Route::get('/get/scan/{table}/{eventid}/{id}/{value}/{uniqueid}', [GetScanController::class, 'getScan']);
         Route::get('/get/userscan/{table}/{tableid}/{itemid}/{token}', [GetUserScanController::class, 'getUserScan']);
 
         Route::get('/get/pollsubmit/{id}/{pollid}/{eventid}/{token}/{guestid}', [GetUpdateController::class, 'getPollSubmit']);
