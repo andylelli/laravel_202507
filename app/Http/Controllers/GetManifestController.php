@@ -105,7 +105,7 @@ class GetManifestController extends Controller
             $colour = $lookup ? $lookup->lookup_value : '000000';
             
             //$startURL = "/user/event/" . $convertedString;
-            $startURL = "/user/index.html?name=" . $eventName . "&token=" . $token . "id=" . $eventid . "&bg=" . $colour;
+            $startURL = "/user/index.html?name=" . $eventName . "&token=" . $token . "&id=" . $eventid . "&bg=" . $colour;
 
             // CREATE MAIN RESPONSE
             $response[] = array(
