@@ -32,7 +32,7 @@ class PostTileController extends Controller
         $se = $request->input('se');
         $pindropId = $request->input('pindrop_id');
 
-        $tiles = $this->getTilesInBoundingBox($nw, $se, 16, 17);
+        $tiles = $this->getTilesInBoundingBox($nw, $se, 16, 16);
 
         foreach ($tiles as $tile) {
             $url = "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{$tile['z']}/{$tile['y']}/{$tile['x']}";
