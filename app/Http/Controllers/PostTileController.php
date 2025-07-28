@@ -6,23 +6,17 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use ZipArchive;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
+use Exception;
 
 use App\Classes\Traits\General;
-
 
 class PostTileController extends Controller
 {
     use General;
-
-    use Illuminate\Http\Request;
-    use Illuminate\Support\Facades\DB;
-    use Illuminate\Support\Facades\Http;
-    use Illuminate\Support\Facades\Storage;
-    use Illuminate\Support\Facades\File;
-    use Exception;
 
     public function downloadTiles(Request $request)
     {
