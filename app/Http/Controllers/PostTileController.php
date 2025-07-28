@@ -17,9 +17,16 @@ class PostTileController extends Controller
 {
     use General;
 
+    use Illuminate\Http\Request;
+    use Illuminate\Support\Facades\DB;
+    use Illuminate\Support\Facades\Http;
+    use Illuminate\Support\Facades\Storage;
+    use Illuminate\Support\Facades\File;
+    use Exception;
+
     public function downloadTiles(Request $request)
     {
-
+        // Validate the input
         $request->validate([
             'nw.lat' => 'required|numeric',
             'nw.lon' => 'required|numeric',
@@ -34,6 +41,8 @@ class PostTileController extends Controller
 
         $tiles = $this->getTilesInBoundingBox($nw, $se, 16, 16);
 
+        $downloadedTileCount = 0;
+
         foreach ($tiles as $tile) {
             $url = "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{$tile['z']}/{$tile['y']}/{$tile['x']}";
             $response = Http::timeout(10)->get($url);
@@ -43,9 +52,21 @@ class PostTileController extends Controller
                 $filename = "{$tile['x']}.jpg";
                 $fullPath = "{$relativePath}/{$filename}";
 
-                Storage::disk('local')->makeDirectory($relativePath);
+                Storage::disk('local')->makeDirectory($relativePath, 0755, true, true);
                 Storage::disk('local')->put($fullPath, $response->body());
+
+                $downloadedTileCount++;
+            } else {
+                // Optionally log or handle failed tile download here
+                Log::warning("Tile download failed for URL: $url");
             }
+        }
+
+        if ($downloadedTileCount === 0) {
+            return response()->json([
+                'status' => 'fail',
+                'message' => 'No tiles could be downloaded.'
+            ], 400);
         }
 
         $zipPath = $this->zipTiles($pindropId);
@@ -55,32 +76,43 @@ class PostTileController extends Controller
 
         $uxtime = $this->unixTime();
 
-        // Save entry to `tile` table
-        DB::table('tile')->insert([
-            'tile_filename' => basename($zipPath),
-            'tile_size' => filesize($zipPath),
-            'tile_pindropid' => $pindropId,
-            'tile_uxtime' => $uxtime
-        ]);
+        try {
+            // Save entry to `tile` table
+            DB::table('tile')->insert([
+                'tile_filename' => basename($zipPath),
+                'tile_size' => filesize($zipPath),
+                'tile_pindropid' => $pindropId,
+                'tile_uxtime' => $uxtime
+            ]);
 
-        DB::table('pindrop')
-        ->where('pindrop_id', $pindropId)
-        ->update([
-            'pindrop_north'  => $nw['lat'],
-            'pindrop_west'   => $nw['lon'],
-            'pindrop_south'  => $se['lat'],
-            'pindrop_east'   => $se['lon'],
-            'pindrop_uxtime' => $uxtime,
-        ]);
+            // Update the corresponding pindrop
+            DB::table('pindrop')
+                ->where('pindrop_id', $pindropId)
+                ->update([
+                    'pindrop_north'  => $nw['lat'],
+                    'pindrop_west'   => $nw['lon'],
+                    'pindrop_south'  => $se['lat'],
+                    'pindrop_east'   => $se['lon'],
+                    'pindrop_uxtime' => $uxtime,
+                ]);
 
+            return response()->json([
+                'status' => 'success',
+                'data' => [
+                    'message' => 'Tiles downloaded, zipped, stored, and cleaned up.',
+                    'zip_filename' => basename($zipPath),
+                    'zip_full_path' => $zipPath
+                ]
+            ], 200);
 
-
-        return response()->json([
-            'message' => 'Tiles downloaded, zipped, stored, and cleaned up.',
-            'zip_filename' => basename($zipPath),
-            'zip_full_path' => $zipPath
-        ]);
+        } catch (Exception $ex) {
+            return response()->json([
+                'status' => 'fail',
+                'message' => 'ERROR: ' . $ex->getMessage()
+            ], 400);
+        }
     }
+
 
     public function downloadTileZip($pindropId)
     {
