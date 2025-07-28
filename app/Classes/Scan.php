@@ -23,7 +23,7 @@ class Scan extends Project{
             ->where($table . '_eventid' ,'=', $eventid)
     		->get();
 
-            if(count($results) == 0) {
+            if(count($results) == 1) {
 
                 $response = array(
                     'status' => 'success',
