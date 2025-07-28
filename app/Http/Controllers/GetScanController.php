@@ -25,8 +25,6 @@ class GetScanController extends Controller
 
         if ($scan_check['status'] == 'success') {
 
-            $guestid = $scan_check['guest_id'];
-
             //SCOREBOARD
             if($table == 'scoreboard') {
                 $scoreboard_update = $scan->QR_scoreboard_update($uniqueid, $id, $value, $eventid);
