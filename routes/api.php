@@ -42,9 +42,6 @@ use App\Http\Controllers\MapStyliseController;
     //Send tiles to client
     Route::get('/get/tiles/pindrop/{pindropid}', [GetTileController::class, 'getTilesForPindrop']);
 
-    //Save tiles
-    Route::post('/post/insert/tiles', [PostTileController::class, 'downloadTiles']);
-
     //Stylise tiles
     Route::post('/stylise-map', [MapStyliseController::class, 'handleStored']);
 
@@ -52,9 +49,6 @@ use App\Http\Controllers\MapStyliseController;
     Route::post('/post/login',  [PostLoginController::class, 'postLogin']);
     //Register
     Route::post('/post/register', [PostRegisterController::class, 'postRegister']);
-
-    //Email
-    Route::get('/get/email', [GetEmailController::class, 'sendEmail']);
 
     //Get updates
     Route::get('/get/events',  [GetUpdateController::class, 'getEvents']);
@@ -67,6 +61,8 @@ use App\Http\Controllers\MapStyliseController;
     //Route::middleware(['throttle:9999,1', ValidateToken::class])->group(function(){
     Route::middleware([ValidateToken::class])->group(function(){
 
+        //Save tiles
+        Route::post('/post/insert/tiles', [PostTileController::class, 'downloadTiles']);
 
         //Get updates
         Route::get('/get/update/user/{userid}/{unixtime}',  [GetUpdateController::class, 'getUpdatesForUser']);
