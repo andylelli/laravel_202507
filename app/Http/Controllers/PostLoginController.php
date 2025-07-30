@@ -25,7 +25,7 @@ class PostLoginController extends Controller
 		$user = new _User();
         $result = $user->login($email, $password, $token);
 
-        if($result->status == 'success') {
+        if($result->status == 'success' || $result->status == 'expired') {
 
             return response()->json($result, 200);
 
