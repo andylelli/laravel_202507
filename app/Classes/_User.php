@@ -26,12 +26,6 @@ class _User
      */
     public function login($email, $password, $token)
     {
-        // Log the incoming credentials (WARNING: don't do this in production!)
-        Log::info('LOGIN ATTEMPT', [
-            'email' => $email,
-            'password' => $password,
-            'token' => $token,
-        ]);
 
         if (strlen($password) > 0 && strlen($email) > 0) {
             return $this->loginWithPassword($email, $password);
@@ -104,7 +98,7 @@ class _User
             ->where('event_token', $token)
             ->first();
 
-        $expiryDate = DateTime::createFromFormat('Ymd', $event->event_expiry);
+        $expiryDate = DateTime::createFromFormat('Ymd', $event->event_expirydate);
         $today = new DateTime();
 
         if ($expiryDate && $expiryDate >= $today->setTime(0, 0)) {
