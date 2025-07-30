@@ -98,32 +98,41 @@ class _User
             ->where('event_token', $token)
             ->first();
 
-        $expiryDate = DateTime::createFromFormat('Ymd', $event->event_expirydate);
-        $today = new DateTime();
-
-        if ($expiryDate && $expiryDate >= $today->setTime(0, 0)) {
-            return (object)[
-                'status'      => 'expired',
-                'event_image'    => $event->event_image,
-                'event_expiredmessage'  => $event->event_expiredmessage,
-                'message'     => 'This exent has expired.'
-            ];
-        }
-
-        elseif ($event) {
-            return (object)[
-                'status'      => 'success',
-                'event_id'    => $event->event_id,
-                'event_name'  => $event->event_name,
-                'event_token' => $event->event_token,
-                'message'     => 'You are now logged in by event token.'
-            ];
-        } else {
+        if (!$event) {
             return (object)[
                 'status' => 'fail',
                 'message' => 'Invalid event token.'
             ];
         }
+
+        $expiryDate = DateTime::createFromFormat('Ymd', $event->event_expirydate);
+        $today = new DateTime();
+        $today->setTime(0, 0); // Normalize to date-only
+
+        // Log date values
+        Log::info('Checking event token:', [
+            'event_token' => $token,
+            'event_expirydate_raw' => $event->event_expirydate,
+            'parsed_expiryDate' => $expiryDate ? $expiryDate->format('Y-m-d') : 'Invalid format',
+            'today' => $today->format('Y-m-d')
+        ]);
+
+        if ($expiryDate && $expiryDate < $today) {
+            return (object)[
+                'status' => 'expired',
+                'event_image' => $event->event_image,
+                'event_expiredmessage' => $event->event_expiredmessage,
+                'message' => 'This event has expired.'
+            ];
+        }
+
+        return (object)[
+            'status' => 'success',
+            'event_id' => $event->event_id,
+            'event_name' => $event->event_name,
+            'event_token' => $event->event_token,
+            'message' => 'You are now logged in by event token.'
+        ];
     }
 
     /**
