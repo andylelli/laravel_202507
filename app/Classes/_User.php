@@ -103,7 +103,19 @@ class _User
             ->where('event_token', $token)
             ->first();
 
-        if ($event) {
+        $expiryDate = DateTime::createFromFormat('Ymd', $event->event_expiry);
+        $today = new DateTime();
+
+        if ($expiryDate && $expiryDate >= $today->setTime(0, 0)) {
+            return (object)[
+                'status'      => 'expired',
+                'event_image'    => $event->event_image,
+                'event_expiredmessage'  => $event->event_expiredmessage,
+                'message'     => 'This exent has expired.'
+            ];
+        }
+
+        elseif ($event) {
             return (object)[
                 'status'      => 'success',
                 'event_id'    => $event->event_id,
