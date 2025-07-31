@@ -5,66 +5,75 @@ namespace App\Http\Controllers;
 use DB;
 use App\Classes\Traits\General;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class PostImageController extends Controller
 {
 	use General;
 
-    public function postImage(Request $request)
-    {
-        $this->validate($request, ['image' => 'required|image|max:2000']);
+	public function postImage(Request $request)
+	{
+		try {
+			$validator = Validator::make($request->all(), [
+				'image' => 'required|image|max:2000', // max size in kilobytes (2MB)
+			]);
 
-		$data = $request->all();
-		$id = $data['id'];
-		$table = $data['table'];
+			if ($validator->fails()) {
+				throw new HttpResponseException(response()->json([
+					'status' => 'fail',
+					'message' => $validator->errors()->first('image')
+				], 422));
+			}
 
-        $picName = $request->file('image')->getClientOriginalName();
-        $destinationPath = 'uploads/images/';
+			$data = $request->all();
+			$id = $data['id'];
+			$table = $data['table'];
 
-        $path = $request->file('image')->move($destinationPath, $picName);
+			$picName = $request->file('image')->getClientOriginalName();
+			$destinationPath = 'uploads/images/';
+			$path = $request->file('image')->move($destinationPath, $picName);
 
-		$uxtime = $this->unixTime();
-		$image = $this->generalBase64($path);
+			$uxtime = $this->unixTime();
+			$image = $this->generalBase64($path);
 
+			if ($table == 'event') {
+				$base64Image = preg_replace('/^data:image\/[^;]+;base64,/', '', $image);
+				$this->createPwaIcons($base64Image, '/home/1159228.cloudwaysapps.com/gthewnsykf/public_html/user/icons/' . $id);
+			}
 
-		$results = DB::table('event')
-		->where('event_id' ,'=', $id)
-		->get();
+			unlink($destinationPath . $picName);
 
-		$name = $results[0]->event_name;
+			$results = DB::table($table)
+				->where($table . '_id', $id)
+				->update([
+					$table . '_image' => $image,
+					$table . '_uxtime' => $uxtime
+				]);
 
-		$lowercaseString = strtolower($name);
-		$decodedString = html_entity_decode($lowercaseString, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-		$formattedStringHyphen = str_replace(' ', '-', $decodedString);
-		$formattedString = preg_replace('/[^a-zA-Z0-9-]/', '', $formattedStringHyphen);
+			if ($results) {
+				return response()->json([
+					'status' => 'success',
+					'base64image' => $image,
+					'message' => 'Image uploaded successfully'
+				], 200);
+			} else {
+				return response()->json([
+					'status' => 'fail',
+					'message' => 'Error uploading image'
+				], 400);
+			}
 
-		if($table == 'event') {
-			$base64Image = preg_replace('/^data:image\/[^;]+;base64,/', '', $image);
-			$this->createPwaIcons($base64Image, '/home/1159228.cloudwaysapps.com/gthewnsykf/public_html/user/icons/' . $formattedString);
-		}
-
-		unlink($destinationPath . $picName);
-
-		$results = DB::table($table)
-			->where($table . '_id', $id)
-			->update([$table . '_image' => $image, $table . '_uxtime' => $uxtime]);
-
-		if($results == true){
-
-			$response[] = array(
-				'status' => 'success',
-				'base64image' => $image,
-				'message' => 'Image uploaded successfully'
-			);
-			return response()->json($response, 200);
-		}
-		else{
-
-			$response[] = array(
+		} catch (HttpResponseException $e) {
+			// Return validation error response
+			return $e->getResponse();
+		} catch (\Exception $e) {
+			// General exception handling
+			return response()->json([
 				'status' => 'fail',
-				'message' => 'Error uploading image'
-			);
-			return response()->json($response, 400);
+				'message' => 'An unexpected error occurred: ' . $e->getMessage()
+			], 500);
 		}
 	}
 

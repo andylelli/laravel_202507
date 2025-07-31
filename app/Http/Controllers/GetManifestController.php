@@ -30,9 +30,6 @@ class GetManifestController extends Controller
             $decodedString = html_entity_decode($lowercaseString, ENT_QUOTES | ENT_HTML5, 'UTF-8');
             $formattedStringHyphen = str_replace(' ', '-', $decodedString);
             $eventName = rawurlencode($formattedStringHyphen);
-
-            //$this->writeToLog($eventName);
-
             
             $folderPath = "user/icons/" . $iconFolder;
 
