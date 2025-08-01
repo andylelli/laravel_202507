@@ -13,70 +13,52 @@ class GetManifestController extends Controller
     public function getManifest($eventid)
     {
         try {
+
             $results = DB::table('event')
             ->where('event_id' ,'=', $eventid)
             ->get();
 
-            $name = $results[0]->event_name;
-            $token = $results[0]->event_token;
-
-            $lowercaseString = strtolower($name);
-            $decodedString = html_entity_decode($lowercaseString, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-            $formattedStringHyphen = str_replace(' ', '-', $decodedString);
-            $iconFolder = preg_replace('/[^a-zA-Z0-9-]/', '', $formattedStringHyphen);
-
-
-            $lowercaseString = strtolower($name);
-            $decodedString = html_entity_decode($lowercaseString, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-            $formattedStringHyphen = str_replace(' ', '-', $decodedString);
-            $eventName = rawurlencode($formattedStringHyphen);
-            
-            $folderPath = "user/icons/" . $iconFolder;
+            $eventname = $results[0]->event_name;
+            $eventtoken = $results[0]->event_token;
+         
+            $folderPath = "user/icons/" . $eventid;
 
             $lookup = DB::table('lookup')
             ->where('lookup_eventid', '=', $eventid)
             ->where('lookup_id', '=', 'splashcolour')
             ->first();
 
-            $relativePath = "user/icons/" . $iconFolder;
+            $relativePath = "user/icons/" . $eventid       
             $absolutePath = $_SERVER['DOCUMENT_ROOT'] . $relativePath;
-
-            
-            if (!is_dir($absolutePath)) {
-                $convertedString = "evaria";
-            } else {
-                $convertedString = $iconFolder;
-            }
-           
 
             // CREATE ICONS
             $icon128[] = array(
-                'src' => '/user/icons/' . $convertedString . '/128x128.png',
+                'src' => '/user/icons/' . $eventid . '/128x128.png',
                 'sizes' => '128x128',
                 'type' => 'image/png'                                                                                                                                                        
             );
             $icon144[] = array(
-                'src' => '/user/icons/' . $convertedString . '/144x144.png',
+                'src' => '/user/icons/' . $eventid . '/144x144.png',
                 'sizes' => '144x144',
                 'type' => 'image/png'                                                                                                                                                        
             );
             $icon152[] = array(
-                'src' => '/user/icons/' . $convertedString . '/152x152.png',
+                'src' => '/user/icons/' . $eventid . '/152x152.png',
                 'sizes' => '152x152',
                 'type' => 'image/png'                                                                                                                                                        
             );
             $icon192[] = array(
-                'src' => '/user/icons/' . $convertedString . '/192x192.png',
+                'src' => '/user/icons/' . $eventid . '/192x192.png',
                 'sizes' => '192x192',
                 'type' => 'image/png'                                                                                                                                                        
             );      
             $icon256[] = array(
-                'src' => '/user/icons/' . $convertedString . '/256x256.png',
+                'src' => '/user/icons/' . $eventid . '/256x256.png',
                 'sizes' => '256x256',
                 'type' => 'image/png'                                                                                                                                                        
             );  
             $icon512[] = array(
-                'src' => '/user/icons/' . $convertedString . '/512x512.png',
+                'src' => '/user/icons/' . $eventid . '/512x512.png',
                 'sizes' => '512x512',
                 'type' => 'image/png'                                                                                                                                                        
             );            
@@ -102,17 +84,17 @@ class GetManifestController extends Controller
             $colour = $lookup ? $lookup->lookup_value : '000000';
             
             //$startURL = "/user/event/" . $convertedString;
-            $startURL = "/user/index.html?name=" . $eventName . "&token=" . $token . "&id=" . $eventid . "&bg=" . $colour;
+            $startURL = "/user/index.html?name=" . $eventname . "&token=" . $eventtoken . "&id=" . $eventid . "&bg=" . $colour;
 
             // CREATE MAIN RESPONSE
             $response[] = array(
                 'background-color' => '#2b2b2b',
-                'description' => $name,
+                'description' => $eventname,
                 'display' => 'standalone',
                 'icons' => $iconsArray,
                 'id' => 'evaria-123456',
                 'lang' => 'en-US',
-                'name' => $name,
+                'name' => $eventname,
                 'orientation' => 'portrait',
                 'screenshots' => $screenshotsArray,
                 'short_name' => $name,
