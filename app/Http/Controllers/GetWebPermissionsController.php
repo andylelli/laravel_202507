@@ -13,44 +13,45 @@ class GetWebPermissionsController extends Controller
 	public function getWebPermissionsPage($eventnameURL, $eventtoken, $bgcolor, $type)
     {
 
+	try {
+		$event = DB::table('event')
+			->where('event_token', $eventtoken)
+			->first(); // returns a single object
 
-		try {
-        	$event = DB::table('event')
-            ->where('event_token', $eventtoken)
-            ->get();
-
-			$lowercaseString = strtolower($eventnameURL);
-            $decodedString = html_entity_decode($lowercaseString, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-            $formattedStringHyphen = str_replace(' ', '-', $decodedString);
-            $formattedEventNameURL = preg_replace('/[^a-zA-Z0-9]/', '', $formattedStringHyphen);
-
-			$lowercaseString = strtolower($event[0]->event_name);
-            $decodedString = html_entity_decode($lowercaseString, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-            $formattedStringHyphen = str_replace(' ', '-', $decodedString);
-            $formattedEventNameDB = preg_replace('/[^a-zA-Z0-9]/', '', $formattedStringHyphen);
-
-			if ($formattedEventNameDB != $formattedEventNameURL) {
-                $error = "Event name does not match the event ID";
-                $this->writeToLog($error);
-                
-                throw new Exception($error); // This triggers the catch block
-            }
-
-			$lowercaseString = strtolower($event[0]->event_name);
-            $decodedString = html_entity_decode($lowercaseString, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-			$eventnameDBURLEncode = rawurlencode($decodedString);
-            $eventnameDBHTMLDecode = str_replace('%20', '-', $eventnameDBURLEncode);
-
-            $eventName = html_entity_decode($event[0]->event_name, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-
-			$croppedImage = $this->cropToSquare($event[0]->event_image);
-
-
-			$url ="https://www.evaria.io/user/index.html?name=" . $eventnameDBHTMLDecode . "&token=" . $event[0]->event_token . "&id=" . $event[0]->event_id ."&bg=" . $bgcolor . "&type=" . $type;
-
-			//$this->writeToLog(print_r($event, true));
-        	return view('permission', ['url' => $url, 'id' => $event[0]->event_id, 'eventtoken' => $event[0]->event_token, 'eventname' => $eventName, 'eventimage' => $croppedImage, 'bgcolor' => $bgcolor]);
+		if (!$event) {
+			throw new Exception("Event not found");
 		}
+
+		// Decode both names
+		$eventNameDB_decoded = html_entity_decode($event->event_name, ENT_QUOTES | ENT_XML1);
+		$eventnameURL_decoded = urldecode($eventnameURL);
+
+		// ✅ Log both values before comparison
+		$this->writeToLog("Decoded DB event name: {$eventNameDB_decoded}");
+		$this->writeToLog("Decoded URL event name: {$eventnameURL_decoded}");
+
+		// Compare
+		if ($eventnameURL_decoded !== $eventNameDB_decoded) {
+			$error = "Event name does not match the event ID";
+			$this->writeToLog($error);
+			throw new Exception($error);
+		}
+
+		// Proceed with rest
+		$croppedImage = $this->cropToSquare($event->event_image);
+
+		$url = "https://www.evaria.io/user/index.html?name={$eventnameURL}&token={$event->event_token}&id={$event->event_id}&bg={$bgcolor}&type={$type}";
+
+		return view('permission', [
+			'url' => $url,
+			'id' => $event->event_id,
+			'eventtoken' => $event->event_token,
+			'eventname' => $eventnameURL_decoded,
+			'eventimage' => $croppedImage,
+			'bgcolor' => $bgcolor,
+		]);
+
+	} 
 
 		catch(Exception $ex) {
 			$error = $ex->getMessage();
