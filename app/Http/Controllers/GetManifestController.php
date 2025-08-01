@@ -97,7 +97,7 @@ class GetManifestController extends Controller
                 'name' => $eventname,
                 'orientation' => 'portrait',
                 'screenshots' => $screenshotsArray,
-                'short_name' => $name,
+                'short_name' => $eventname,
                 'start_url' => $startURL,  
                 'theme_color' => '#2b2b2b',                                                                                                                                                         
             );
