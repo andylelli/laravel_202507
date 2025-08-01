@@ -28,7 +28,7 @@ class GetManifestController extends Controller
             ->where('lookup_id', '=', 'splashcolour')
             ->first();
 
-            $relativePath = "user/icons/" . $eventid       
+            $relativePath = "user/icons/" . $eventid;       
             $absolutePath = $_SERVER['DOCUMENT_ROOT'] . $relativePath;
 
             // CREATE ICONS
