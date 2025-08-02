@@ -173,12 +173,7 @@
                 "name",
                 "eventid"
             ],
-            "dbInsertInitial": {
-                "pindrop_north": 0,
-                "pindrop_west": 0,
-                "pindrop_south": 0,
-                "pindrop_east": 0
-            },
+
             "dbUpdate": [
                 "pindrop_id"
             ]
