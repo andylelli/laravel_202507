@@ -15,5 +15,5 @@ use App\Http\Controllers\GetAdminPermissionsController;
 | be assigned to the "web" middleware group. Make something great!
 |  return view('welcome');
 */
-Route::get('/app/{eventname}/{eventtoken}/{bgcolor}/{type}',  [GetWebPermissionsController::class, 'getWebPermissionsPage']);
+Route::get('/app/{eventname}/{eventtoken}/{id}/{bgcolor}/{type}',  [GetWebPermissionsController::class, 'getWebPermissionsPage']);
 Route::get('/app/admin',  [GetAdminPermissionsController::class, 'getAdminPermissionsPage']);
