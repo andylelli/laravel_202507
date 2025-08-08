@@ -33,7 +33,7 @@ class PostTileController extends Controller
         $se = $request->input('se');
         $pindropId = $request->input('pindrop_id');
 
-        $tiles = $this->getTilesInBoundingBox($nw, $se, 14, 16);
+        $tiles = $this->getTilesInBoundingBox($nw, $se, 16, 16);
 
         $downloadedTileCount = 0;
 
