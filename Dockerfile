@@ -1,3 +1,4 @@
+RUN composer install --no-dev --no-interaction --prefer-dist --no-progress --no-scripts --optimize-autoloader -vvv
 # ---------- Build stage ----------
 FROM php:8.1-fpm AS build
 

@@ -1,5 +1,4 @@
 name: Build and push to ACR
-
 on:
   workflow_dispatch:
   push:
@@ -10,39 +9,38 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DOCKER_BUILDKIT: 1
+      BUILDKIT_PROGRESS: plain   # show full logs
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Optional: quick Composer sanity check outside Docker for clearer errors
-      - name: PHP 8.1 + Composer check (optional)
+      - name: Show branch and files (debug)
+        run: |
+          git rev-parse --abbrev-ref HEAD
+          ls -la
+          sed -n '1,120p' Dockerfile || true
+
+      # Composer dry-run OUTSIDE Docker for clearer errors
+      - name: PHP 8.1 + Composer (diag)
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.1'
           coverage: none
-      - name: Composer validate (no scripts) (optional)
+      - name: Composer diagnose & install (no-scripts) outside Docker
         run: |
           composer --version
-          composer validate --no-interaction || true
+          composer diagnose || true
           composer install --no-dev --prefer-dist --no-scripts --no-progress -vvv || true
 
-      # Sanity check DNS for ACR (helps catch a bad login server secret)
-      - name: DNS check
-        run: |
-          echo "ACR: $ACR_LOGIN_SERVER"
-          nslookup "$ACR_LOGIN_SERVER" || true
-        env:
-          ACR_LOGIN_SERVER: ${{ secrets.ACR_LOGIN_SERVER }}
-
-      - name: Log in to ACR
+      - name: Login to ACR
         uses: docker/login-action@v3
         with:
           registry: ${{ secrets.ACR_LOGIN_SERVER }}
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
 
-      - name: Build and push (no cache to pick up Dockerfile changes)
+      - name: Build and push (no cache, full logs)
         uses: docker/build-push-action@v6
         with:
           context: .
