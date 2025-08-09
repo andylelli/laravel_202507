@@ -3,32 +3,35 @@ FROM php:8.1-fpm AS build
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git unzip libicu-dev libzip-dev zlib1g-dev libpq-dev \
+    libpng-dev libjpeg-turbo-progs libjpeg62-turbo-dev libfreetype6-dev \
  && rm -rf /var/lib/apt/lists/*
 
-# PHP extensions required by Laravel and many apps
-# (add more if your app needs them: gd, imagick, redis, etc.)
-RUN docker-php-ext-install -j"$(nproc)" pdo pdo_mysql intl zip opcache mbstring bcmath
+# PHP extensions commonly needed by Laravel apps
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+ && docker-php-ext-install -j"$(nproc)" pdo pdo_mysql intl zip opcache mbstring bcmath gd
 
 # Composer
-ENV COMPOSER_ALLOW_SUPERUSER=1
+ENV COMPOSER_ALLOW_SUPERUSER=1 \
+    COMPOSER_MEMORY_LIMIT=-1
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 COPY composer.json composer.lock ./
 
-# If you have private packages, set auth via build args or GH token
-# ARG COMPOSER_AUTH
-# RUN [ -n "$COMPOSER_AUTH" ] && echo "$COMPOSER_AUTH" > /root/.composer/auth.json || true
+# Optional: auth for private packages (passed as build-arg; safe if not set)
+ARG GITHUB_TOKEN=""
+RUN if [ -n "$GITHUB_TOKEN" ]; then composer config -g github-oauth.github.com "$GITHUB_TOKEN"; fi
 
-RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader --no-progress
+# IMPORTANT: skip composer scripts during image build to avoid env/DB-dependent failures
+RUN composer install --no-dev --no-interaction --prefer-dist --no-progress --no-scripts --optimize-autoloader
 
-# Copy app code
+# Copy the rest of the app
 COPY . .
 
-# Cache config/routes/views, but don't fail the build if app boots need env
-RUN php artisan config:cache  || true \
- && php artisan route:cache   || true \
- && php artisan view:cache    || true
+# Don’t fail the build if these artisan commands need env; we’ll run them at runtime if needed
+RUN php artisan config:clear  || true \
+ && php artisan route:clear   || true \
+ && php artisan view:clear    || true
 
 # ---------- Runtime stage ----------
 FROM php:8.1-fpm
@@ -45,24 +48,3 @@ RUN set -eux; \
     PHP_EXT_DIR="$(php -i | awk -F'=> ' '/^extension_dir/ {print $2}')" ; \
     cp "/tmp/ioncube/ioncube_loader_lin_8.1.so" "$PHP_EXT_DIR/"; \
     echo "zend_extension=$PHP_EXT_DIR/ioncube_loader_lin_8.1.so" > /usr/local/etc/php/conf.d/00-ioncube.ini; \
-    php -v
-
-# OPcache for prod
-RUN printf "%s\n" \
-  "opcache.enable=1" \
-  "opcache.enable_cli=0" \
-  "opcache.jit=1255" \
-  "opcache.jit_buffer_size=64M" \
-  "opcache.memory_consumption=256" \
-  "opcache.max_accelerated_files=50000" \
-  > /usr/local/etc/php/conf.d/opcache.ini
-
-WORKDIR /var/www/html
-COPY --from=build /var/www/html /var/www/html
-
-COPY .deploy/nginx.conf /etc/nginx/nginx.conf
-COPY .deploy/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
-HEALTHCHECK --interval=30s --timeout=5s --retries=3 CMD curl -fsS http://localhost/health || exit 1
-EXPOSE 80
-CMD ["/usr/bin/supervisord","-n","-c","/etc/supervisor/conf.d/supervisord.conf"]
