@@ -1,35 +1,44 @@
 # ---------- Build stage ----------
 FROM php:8.1-fpm AS build
 
+# System packages (added: libonig-dev for mbstring)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git unzip libicu-dev libzip-dev zlib1g-dev libpq-dev \
     libpng-dev libjpeg62-turbo-dev libfreetype6-dev \
-    libxml2-dev libcurl4-openssl-dev \
+    libxml2-dev libcurl4-openssl-dev libonig-dev \
  && rm -rf /var/lib/apt/lists/*
 
+# PHP extensions commonly needed by Laravel apps
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
  && docker-php-ext-install -j"$(nproc)" \
     pdo pdo_mysql intl zip opcache mbstring bcmath gd xml curl
 
+# Composer
 ENV COMPOSER_ALLOW_SUPERUSER=1 COMPOSER_MEMORY_LIMIT=-1
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
+# Install vendors EARLY (better cache) — WITHOUT scripts (artisan not copied yet)
 COPY composer.json composer.lock ./
+# (Optional) GitHub token for private packages
 ARG GITHUB_TOKEN=""
 RUN if [ -n "$GITHUB_TOKEN" ]; then composer config -g github-oauth.github.com "$GITHUB_TOKEN"; fi
 RUN composer install --no-dev --no-interaction --prefer-dist --no-progress --no-scripts --optimize-autoloader -vvv
 
+# Now copy the full app so artisan is present
 COPY . .
 
+# Safe clears (don’t fail the image build if env/DB isn’t ready)
 RUN php artisan config:clear  || true \
  && php artisan route:clear   || true \
  && php artisan view:clear    || true
 
+
 # ---------- Runtime stage ----------
 FROM php:8.1-fpm
 
+# Runtime packages (Nginx + Supervisor + tools)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     nginx supervisor ca-certificates wget curl tar \
  && rm -rf /var/lib/apt/lists/*
@@ -44,6 +53,7 @@ RUN set -eux; \
     echo "zend_extension=$PHP_EXT_DIR/ioncube_loader_lin_8.1.so" > /usr/local/etc/php/conf.d/00-ioncube.ini; \
     php -v
 
+# OPcache tuned for production
 RUN printf "%s\n" \
   "opcache.enable=1" \
   "opcache.enable_cli=0" \
@@ -53,12 +63,16 @@ RUN printf "%s\n" \
   "opcache.max_accelerated_files=50000" \
   > /usr/local/etc/php/conf.d/opcache.ini
 
+# App files from build stage
 WORKDIR /var/www/html
 COPY --from=build /var/www/html /var/www/html
 
+# Nginx + Supervisor configs
 COPY .deploy/nginx.conf /etc/nginx/nginx.conf
 COPY .deploy/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
+# Healthcheck
 HEALTHCHECK --interval=30s --timeout=5s --retries=3 CMD curl -fsS http://localhost/health || exit 1
+
 EXPOSE 80
 CMD ["/usr/bin/supervisord","-n","-c","/etc/supervisor/conf.d/supervisord.conf"]
