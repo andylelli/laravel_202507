@@ -1,42 +1,44 @@
-RUN composer install --no-dev --no-interaction --prefer-dist --no-progress --no-scripts --optimize-autoloader -vvv
 # ---------- Build stage ----------
 FROM php:8.1-fpm AS build
 
+# System deps
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git unzip libicu-dev libzip-dev zlib1g-dev libpq-dev \
-    libpng-dev libjpeg-turbo-progs libjpeg62-turbo-dev libfreetype6-dev \
+    libpng-dev libjpeg62-turbo-dev libfreetype6-dev \
+    libxml2-dev libcurl4-openssl-dev \
  && rm -rf /var/lib/apt/lists/*
 
 # PHP extensions commonly needed by Laravel apps
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
- && docker-php-ext-install -j"$(nproc)" pdo pdo_mysql intl zip opcache mbstring bcmath gd
+ && docker-php-ext-install -j"$(nproc)" \
+    pdo pdo_mysql intl zip opcache mbstring bcmath gd xml curl
 
 # Composer
-ENV COMPOSER_ALLOW_SUPERUSER=1 \
-    COMPOSER_MEMORY_LIMIT=-1
+ENV COMPOSER_ALLOW_SUPERUSER=1 COMPOSER_MEMORY_LIMIT=-1
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
-COPY composer.json composer.lock ./
 
-# Optional: auth for private packages (safe if not set)
+# Install vendors EARLY (better layer caching) – but WITHOUT scripts (artisan not copied yet)
+COPY composer.json composer.lock ./
+# Optional: auth for private packages via build-arg (safe to omit)
 ARG GITHUB_TOKEN=""
 RUN if [ -n "$GITHUB_TOKEN" ]; then composer config -g github-oauth.github.com "$GITHUB_TOKEN"; fi
-
-# NOTE: add -vvv for clearer logs while we’re debugging composer failures
 RUN composer install --no-dev --no-interaction --prefer-dist --no-progress --no-scripts --optimize-autoloader -vvv
 
-# Copy the rest of the app
+# Now copy the full app (artisan becomes available)
 COPY . .
 
-# Don’t fail the build if these artisan commands need env
+# Don’t fail the build if these need runtime env
 RUN php artisan config:clear  || true \
  && php artisan route:clear   || true \
  && php artisan view:clear    || true
 
+
 # ---------- Runtime stage ----------
 FROM php:8.1-fpm
 
+# Runtime packages (Nginx + Supervisor + tools)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     nginx supervisor ca-certificates wget curl tar \
  && rm -rf /var/lib/apt/lists/*
@@ -51,7 +53,7 @@ RUN set -eux; \
     echo "zend_extension=$PHP_EXT_DIR/ioncube_loader_lin_8.1.so" > /usr/local/etc/php/conf.d/00-ioncube.ini; \
     php -v
 
-# OPcache for prod
+# OPcache tuned for production
 RUN printf "%s\n" \
   "opcache.enable=1" \
   "opcache.enable_cli=0" \
@@ -61,14 +63,17 @@ RUN printf "%s\n" \
   "opcache.max_accelerated_files=50000" \
   > /usr/local/etc/php/conf.d/opcache.ini
 
+# App
 WORKDIR /var/www/html
 COPY --from=build /var/www/html /var/www/html
 
-# Nginx + Supervisor configs
+# Nginx + Supervisor configs (ensure these exist in your repo)
+# .deploy/nginx.conf should serve /var/www/html/public and pass PHP to 127.0.0.1:9000
+# .deploy/supervisord.conf should start php-fpm and nginx (daemon off)
 COPY .deploy/nginx.conf /etc/nginx/nginx.conf
 COPY .deploy/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Simple health endpoint
+# Simple health endpoint (expect your nginx.conf to serve /health)
 HEALTHCHECK --interval=30s --timeout=5s --retries=3 CMD curl -fsS http://localhost/health || exit 1
 
 EXPOSE 80
