@@ -1,11 +1,15 @@
 # ---------- Build stage ----------
 FROM php:8.1-fpm AS build
 
-# System packages (added: libonig-dev for mbstring)
+# System packages
+#  - libonig-dev + libonig5 for mbstring/oniguruma
+#  - pkg-config so mbstring's configure can locate oniguruma
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    git unzip libicu-dev libzip-dev zlib1g-dev libpq-dev \
+    git unzip pkg-config \
+    libicu-dev libzip-dev zlib1g-dev libpq-dev \
     libpng-dev libjpeg62-turbo-dev libfreetype6-dev \
-    libxml2-dev libcurl4-openssl-dev libonig-dev \
+    libxml2-dev libcurl4-openssl-dev \
+    libonig-dev libonig5 \
  && rm -rf /var/lib/apt/lists/*
 
 # PHP extensions commonly needed by Laravel apps
@@ -19,7 +23,7 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
-# Install vendors EARLY (better cache) — WITHOUT scripts (artisan not copied yet)
+# Install vendors early (cache) WITHOUT scripts (artisan not copied yet)
 COPY composer.json composer.lock ./
 # (Optional) GitHub token for private packages
 ARG GITHUB_TOKEN=""
