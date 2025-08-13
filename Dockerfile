@@ -1,7 +1,7 @@
 # ---------- Build stage ----------
 FROM php:8.1-fpm AS build
 
-# System deps
+# System packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git unzip libicu-dev libzip-dev zlib1g-dev libpq-dev \
     libpng-dev libjpeg62-turbo-dev libfreetype6-dev \
@@ -19,17 +19,17 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
-# Install vendors EARLY (better layer caching) – but WITHOUT scripts (artisan not copied yet)
+# Install vendors EARLY (better cache) — but WITHOUT scripts (artisan not copied yet)
 COPY composer.json composer.lock ./
-# Optional: auth for private packages via build-arg (safe to omit)
+# (Optional) GitHub token for private packages
 ARG GITHUB_TOKEN=""
 RUN if [ -n "$GITHUB_TOKEN" ]; then composer config -g github-oauth.github.com "$GITHUB_TOKEN"; fi
 RUN composer install --no-dev --no-interaction --prefer-dist --no-progress --no-scripts --optimize-autoloader -vvv
 
-# Now copy the full app (artisan becomes available)
+# Now copy the full app so artisan is present
 COPY . .
 
-# Don’t fail the build if these need runtime env
+# Safe clears (don’t fail the image build if env/DB isn’t ready)
 RUN php artisan config:clear  || true \
  && php artisan route:clear   || true \
  && php artisan view:clear    || true
@@ -63,17 +63,17 @@ RUN printf "%s\n" \
   "opcache.max_accelerated_files=50000" \
   > /usr/local/etc/php/conf.d/opcache.ini
 
-# App
+# App files from build stage
 WORKDIR /var/www/html
 COPY --from=build /var/www/html /var/www/html
 
-# Nginx + Supervisor configs (ensure these exist in your repo)
-# .deploy/nginx.conf should serve /var/www/html/public and pass PHP to 127.0.0.1:9000
-# .deploy/supervisord.conf should start php-fpm and nginx (daemon off)
+# Nginx + Supervisor configs (these must exist in your repo)
+# - .deploy/nginx.conf serves /var/www/html/public and forwards PHP to 127.0.0.1:9000
+# - .deploy/supervisord.conf starts php-fpm and nginx (daemon off)
 COPY .deploy/nginx.conf /etc/nginx/nginx.conf
 COPY .deploy/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Simple health endpoint (expect your nginx.conf to serve /health)
+# Healthcheck (expects nginx.conf to route /health)
 HEALTHCHECK --interval=30s --timeout=5s --retries=3 CMD curl -fsS http://localhost/health || exit 1
 
 EXPOSE 80
