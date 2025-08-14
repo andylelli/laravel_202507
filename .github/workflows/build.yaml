@@ -1,4 +1,9 @@
 name: Build and push to ACR
+
+permissions:
+  id-token: write
+  contents: read
+
 on:
   workflow_dispatch:
   push:
@@ -9,7 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DOCKER_BUILDKIT: 1
-      BUILDKIT_PROGRESS: plain   # show full logs
+      BUILDKIT_PROGRESS: plain
+      IMAGE_NAME: laravel-aca
+      GH_PAT: ${{ secrets.GH_PAT }}
 
     steps:
       - name: Checkout
@@ -48,11 +55,11 @@ jobs:
           file: ./Dockerfile
           push: true
           no-cache: true
-          tags: ${{ secrets.ACR_LOGIN_SERVER }}/laravel-aca:latest
+          tags: ${{ secrets.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:latest
           build-args: |
-            GITHUB_TOKEN=${{ secrets.GH_PAT || '' }}
+            GITHUB_TOKEN=${{ env.GH_PAT }}
 
-      # ---------- NEW: ensure LOG_CHANNEL/LOG_LEVEL are always set ----------
+      # --- Azure login via OIDC (no secrets) ---
       - name: Azure login (OIDC)
         uses: azure/login@v2
         with:
@@ -60,14 +67,29 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Set Laravel log to stderr in Container App
+      # Ensure the containerapp commands are available
+      - name: Ensure containerapp CLI
         uses: azure/CLI@v1
         with:
           inlineScript: |
-            # Make sure containerapp commands are available
             az extension add -n containerapp --upgrade -y || true
 
+      # Always set Laravel to log to container stderr
+      - name: Set Laravel log to stderr and info
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
             az containerapp update \
               -g "${{ secrets.AZURE_RG }}" \
               -n "${{ secrets.AZURE_APP }}" \
               --set-env-vars LOG_CHANNEL=stderr LOG_LEVEL=info
+
+      # Roll the app to the freshly-pushed image
+      - name: Roll Container App to latest image
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az containerapp update \
+              -g "${{ secrets.AZURE_RG }}" \
+              -n "${{ secrets.AZURE_APP }}" \
+              --image "${{ secrets.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:latest"
