@@ -27,6 +27,7 @@ jobs:
         with:
           php-version: '8.1'
           coverage: none
+
       - name: Composer diagnose & install (no-scripts) outside Docker
         run: |
           composer --version
@@ -50,3 +51,23 @@ jobs:
           tags: ${{ secrets.ACR_LOGIN_SERVER }}/laravel-aca:latest
           build-args: |
             GITHUB_TOKEN=${{ secrets.GH_PAT || '' }}
+
+      # ---------- NEW: ensure LOG_CHANNEL/LOG_LEVEL are always set ----------
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Set Laravel log to stderr in Container App
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            # Make sure containerapp commands are available
+            az extension add -n containerapp --upgrade -y || true
+
+            az containerapp update \
+              -g "${{ secrets.AZURE_RG }}" \
+              -n "${{ secrets.AZURE_APP }}" \
+              --set-env-vars LOG_CHANNEL=stderr LOG_LEVEL=info
