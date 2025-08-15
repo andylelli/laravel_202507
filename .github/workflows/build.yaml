@@ -55,7 +55,9 @@ jobs:
           file: ./Dockerfile
           push: true
           no-cache: true
-          tags: ${{ secrets.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:latest
+          tags: |
+            ${{ secrets.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:latest
+            ${{ secrets.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ github.run_id }}-${{ github.run_number }}-$(date +'%Y%m%d-%H%M%S')
           build-args: |
             GITHUB_TOKEN=${{ env.GH_PAT }}
 
