@@ -57,7 +57,7 @@ jobs:
           no-cache: true
           tags: |
             ${{ secrets.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:latest
-             ${{ secrets.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ env.DATE_TAG }}
+            ${{ secrets.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ env.DATE_TAG }}
           build-args: |
             GITHUB_TOKEN=${{ env.GH_PAT }}
 
